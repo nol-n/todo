@@ -17,7 +17,9 @@ function project(name) {
         }
     };
 
-    return { name, items, addItem, removeItem };
+    const getItems = () => items;
+
+    return { name, addItem, removeItem, getItems };
 }
 
 export default project;

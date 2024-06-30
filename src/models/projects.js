@@ -14,7 +14,9 @@ function projects() {
         }
     };
 
-    return { projects, addProject, removeProject };
+    const getProjects = () => projects;
+
+    return { addProject, removeProject, getProjects };
 }
 
 export default projects;

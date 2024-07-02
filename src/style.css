@@ -1,3 +1,20 @@
+@font-face {
+    font-family: 'roboto';
+    src: url('fonts/roboto-regular-webfont.woff2') format('woff2'),
+         url('fonts/roboto-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+* {
+    box-sizing: border-box;   
+    margin: 0;
+    padding: 0;
+    font-family: 'roboto';
+}
+
 div#container {
     height: 100vh;
     display: flex;
@@ -6,8 +23,136 @@ div#container {
 
 main {
     flex: 1;
+    display: flex;
 }
 
 footer {
     flex: 0 1 min-content;
+    background-color: rgb(28,148,211);
+    color: #fdfdfd; /* White text */
+}
+
+#sidebar, #item-container {
+    padding: 10px;
+}
+
+#sidebar {
+    width: 250px;
+    background-color: rgb(28,148,211);
+}
+
+#nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#avatar {
+    border-radius: 50%;
+    object-fit: cover;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+}
+
+.notifications {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#projects-container {
+    
+}
+
+#project-header {
+
+}
+
+#project-list {
+
+}
+
+.project {
+
+}
+
+.selected {
+
+}
+
+#add-project {
+
+}
+
+#new-project-input {
+
+}
+
+#item-container {
+    flex: 1;
+    background-color: #ffffff;
+    overflow-y: auto;
+}
+
+#project-items-header {
+    font-weight: bold;
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+#filter {
+    height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+#items-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+    gap: 10px;
+}
+
+#items {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+    gap: 10px;
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.item-div {
+    display: contents;
+}
+
+.title-span {
+}
+
+.desc-span {
+    overflow: auto;
+}
+
+.due-date-span {
+
+}
+
+.priority-span {
+
+}
+
+.complete-span {
+
+}
+
+#show-add-item-dialog {
+
+}
+
+footer a {
+    text-decoration: none;
+    color:#ffffff;
+    font-size: 0.7em;
+}
+
+#add-item-dialog {
+
 }

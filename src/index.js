@@ -4,6 +4,7 @@ import addProjectInput from "./components/addProject.js";
 import renderProjects from "./components/renderProjects.js";
 import project from "./models/project.js";
 import toDoItem from "./models/todoitem.js";
+import avatar from "./img/longhorn.jpg";
 import "./style.css";
 
 
@@ -44,3 +45,5 @@ document.querySelector("#add-item-button").onclick = () => {
 document.querySelector("#add-project").onclick = () => {
     addProjectInput(allProjects);
 };
+
+document.querySelector("#avatar").src = avatar;

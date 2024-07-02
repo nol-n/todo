@@ -8,6 +8,7 @@ function renderProjects(allProjects) {
         const projectBullet = document.createElement("li");
         projectBullet.className = "project";
         projectBullet.textContent = project.name;
+        
         //add event listener to add class "selected" to relevant project
         projectBullet.addEventListener("click", () => {
             selectedProject(projectBullet, project);

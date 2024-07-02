@@ -1,10 +1,21 @@
+import { editItem } from "./editItem.js"
+import { toggleComplete } from "./completeItem.js"
+
 function renderItems(project) {
     const itemsDiv = document.querySelector("#items");
-    itemsDiv.innerHTML = '';
+    const completedItemsDiv = document.querySelector("#completed-items");
 
-    project.getItems().forEach((item) => {
+    itemsDiv.innerHTML = '';
+    completedItemsDiv.innerHTML = '';
+
+    const projectHeader = document.querySelector("#project-items-header h3");
+    projectHeader.innerHTML = '';
+    projectHeader.textContent = (`${project.name} Tasks`);
+
+    project.getItems().forEach((item, index) => {
         const itemDiv = document.createElement("div");
         itemDiv.className = "item-div";
+        itemDiv.dataset.index = index;
 
         const titleSpan = document.createElement("span");
         titleSpan.className = "title-span";
@@ -26,12 +37,31 @@ function renderItems(project) {
         prioritySpan.textContent = item.priority;
         itemDiv.appendChild(prioritySpan);
 
-        const completeSpan = document.createElement("span");
-        completeSpan.className = "complete-span";
-        completeSpan.textContent = item.complete;
-        itemDiv.appendChild(completeSpan);
+        const actionsSpan = document.createElement("span");
+        actionsSpan.className = "actions-span";
 
-        itemsDiv.appendChild(itemDiv);
+        const completeIcon = document.createElement("span");
+        completeIcon.className = "complete-icon material-symbols-outlined";
+        completeIcon.textContent = 'task_alt';
+        completeIcon.addEventListener('click', () => {
+            toggleComplete(project, index);
+        });
+        actionsSpan.appendChild(completeIcon);
+
+        const editIcon = document.createElement("span");
+        editIcon.className = "edit-icon material-symbols-outlined";
+        editIcon.textContent = "edit";
+        editIcon.addEventListener("click", () => editItem(project, index));
+        actionsSpan.appendChild(editIcon);
+
+        itemDiv.appendChild(actionsSpan);
+
+        if (item.complete) {
+            console.log(itemDiv);
+            completedItemsDiv.appendChild(itemDiv);
+        } else {
+            itemsDiv.appendChild(itemDiv);
+        }
 
     });
 }

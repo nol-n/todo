@@ -1,52 +1,73 @@
 import { renderItems } from "./renderItems.js";
+import renderAllItems from "./renderAllItems.js";
+import projects from "../models/projects.js";
+import { addAction } from "./notifications.js";
+import { parseISO, format } from 'date-fns';
 
-function editItem(project, itemIndex) {
+function editItem(projectName, itemIndex, isAllItemsView = false) {
+    const project = projects.getProjects().find(proj => proj.name === projectName);
     const items = project.getItems();
     const item = items[itemIndex];
 
-    const itemDiv = document.querySelector(`.item-div[data-index="${itemIndex}"]`);
+    const itemDiv = document.querySelector(`.item-div[data-project-name="${projectName}"][data-index="${itemIndex}"]`);
+    const formattedDate = item.dueDate ? format(parseISO(item.dueDate), 'yyyy-MM-dd') : '';
 
-    const actionsSpan = document.querySelector(`.item-div[data-index="${itemIndex} .actions-span"]`);
     itemDiv.innerHTML = `
-        <input type="text" class="edit-title" value="${item.title}">
-        <input type="text" class="edit-desc" value="${item.desc}">
-        <input type="date" class="edit-dueDate" value="${item.dueDate}">
+        <input type="text" class="edit-title" value="${item.title}" required>
+        <input type="text" class="edit-desc" value="${item.desc}" required>
+        <input type="date" class="edit-dueDate" value="${formattedDate}" required>
         <select class="edit-priority">
-            <option value="low" ${item.priority === 'Low' ? 'selected' : ''}>Low</option>
-            <option value="medium" ${item.priority === 'Medium' ? 'selected' : ''}>Medium</option>
-            <option value="high" ${item.priority === 'High' ? 'selected' : ''}>High</option>
+            <option value="Low" ${item.priority === 'Low' ? 'selected' : ''}>Low</option>
+            <option value="Medium" ${item.priority === 'Medium' ? 'selected' : ''}>Medium</option>
+            <option value="High" ${item.priority === 'High' ? 'selected' : ''}>High</option>
         </select>
-        <div id="actions">
-        <span class="save-item material-symbols-outlined">save</span>
-        <span class="cancel-edit material-symbols-outlined">cancel</span>
+        <div class="actions-span">
+        <span class="save-icon material-symbols-outlined">save</span>
+        <span class="cancel-icon material-symbols-outlined">cancel</span>
         </div>
     `;
 
     // event listeners
-    itemDiv.querySelector('.save-item').addEventListener('click', () => saveEdit(project, itemIndex));
-    itemDiv.querySelector('.cancel-edit').addEventListener('click', () => renderItems(project));
+    itemDiv.querySelector('.save-icon').addEventListener('click', () => saveEdit(projectName, itemIndex, isAllItemsView));
+    itemDiv.querySelector('.cancel-icon').addEventListener('click', () => {
+        if (isAllItemsView) {
+            renderAllItems(projects);
+        } else {
+            renderItems(project)
+        }
+    });
 }
 
-function saveEdit(project, itemIndex) {
+function saveEdit(projectName, itemIndex, isAllItemsView = false) {
+    const project = projects.getProjects().find(proj => proj.name === projectName);
     const items = project.getItems();
     const item = items[itemIndex];
 
-    const itemDiv = document.querySelector(`.item-div[data-index="${itemIndex}"]`);
+    const itemDiv = document.querySelector(`.item-div[data-project-name="${projectName}"][data-index="${itemIndex}"]`);
 
-    // Get the edited values
     const editedTitle = itemDiv.querySelector('.edit-title').value;
     const editedDesc = itemDiv.querySelector('.edit-desc').value;
     const editedDueDate = itemDiv.querySelector('.edit-dueDate').value;
     const editedPriority = itemDiv.querySelector('.edit-priority').value;
 
-    // Update the item with the edited values
+    if (item.title != editedTitle || item.desc != editedDesc || item.dueDate != editedDueDate || item.priority != editedPriority) {
+        addAction(`${item.title} edited in ${project.name}.`);
+    }
+    
     item.edit('title', editedTitle);
     item.edit('desc', editedDesc);
     item.edit('dueDate', editedDueDate);
     item.edit('priority', editedPriority);
 
-    // Re-render the items
-    renderItems(project);
+    console.log("Saving projects to localStorage after editing item...");
+    projects.saveProjectsToLocalStorage();
+
+
+    if (isAllItemsView) {
+        renderAllItems(projects);
+    } else {
+        renderItems(project);
+    }
 }
 
 

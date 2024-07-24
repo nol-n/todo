@@ -1,3 +1,5 @@
+import projects from "./projects.js";
+
 function toDoItem(title, desc, dueDate, priority) {
     const complete = false;
     
@@ -8,6 +10,7 @@ function toDoItem(title, desc, dueDate, priority) {
             }
         }
         console.log(`toDoItem deleted.`)
+        projects.saveProjectsToLocalStorage();
     };
 
     const edit = (prop, value) => {
@@ -17,9 +20,27 @@ function toDoItem(title, desc, dueDate, priority) {
         } else {
             console.log (`${prop} not valid.`);
         }
+        projects.saveProjectsToLocalStorage();
     };
 
-    const toDoItemInstance = { title, desc, dueDate, priority, complete, del, edit };
+    const toJSON = () => ({
+        title: toDoItemInstance.title,
+        desc: toDoItemInstance.desc,
+        dueDate: toDoItemInstance.dueDate,
+        priority: toDoItemInstance.priority,
+        complete: toDoItemInstance.complete,
+    });
+
+    const toDoItemInstance = { 
+        title, 
+        desc, 
+        dueDate, 
+        priority, 
+        complete, 
+        del, 
+        edit,
+        toJSON, 
+    };
 
     return toDoItemInstance;
 }

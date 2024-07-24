@@ -1,19 +1,27 @@
 import renderProjects from "./renderProjects.js";
 import project from '../models/project.js';
+import projects from '../models/projects.js';
+import { addAction } from "./notifications.js";
 
-function addProject(projectName, allProjects) {
+function addProject(projectName) {
+    addAction(`${projectName} project added.`)
     if (projectName) {
         const newProject = project(projectName);
-        allProjects.addProject(newProject);
-        renderProjects(allProjects);
+        projects.addProject(newProject);
+        renderProjects(projects);
     }
 }
 
-function addProjectInput(allProjects) {
+function addProjectInput() {
     const projectsContainer = document.querySelector("#projects-container");
     const addProjectButton = document.querySelector("#add-project");
 
     addProjectButton.style.display = 'none';
+
+    const projectIcon = document.createElement("span");
+    projectIcon.className = "project-icon material-symbols-outlined";
+    projectIcon.textContent = 'tag';
+    projectIcon.setAttribute("aria-label", "Project Icon");
 
     const projectInput = document.createElement("input");
     projectInput.type = "text";
@@ -21,15 +29,15 @@ function addProjectInput(allProjects) {
     projectInput.placeholder = "Enter project name";
 
     let handled = false;
-    
+
     const handleInput = (event) => {
         if (!handled) {
             let projectName = event.target.value.trim();
-            if(projectName) {
-                addProject(projectName, allProjects);
+            if (projectName) {
+                addProject(projectName);
             }
-            projectsContainer.removeChild(projectInput);
-            addProjectButton.style.display = "block";
+            projectsContainer.removeChild(wrapperDiv);
+            addProjectButton.style.display = "flex";
             handled = true;
         }
     };
@@ -43,9 +51,14 @@ function addProjectInput(allProjects) {
     projectInput.addEventListener("blur", function (event) {
         //had to add a slight delay otherwise both events get triggered when enter is pressed
         setTimeout(() => handleInput(event), 0);
-    });   
+    });
 
-    projectsContainer.insertBefore(projectInput, addProjectButton);
+    const wrapperDiv = document.createElement("div");
+    wrapperDiv.className = "project-input-wrapper";
+    wrapperDiv.appendChild(projectIcon);
+    wrapperDiv.appendChild(projectInput);
+
+    projectsContainer.insertBefore(wrapperDiv, addProjectButton);
     projectInput.focus();
 }
 

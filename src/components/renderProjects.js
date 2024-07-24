@@ -7,7 +7,14 @@ function renderProjects(allProjects) {
     allProjects.getProjects().forEach((project) => {
         const projectBullet = document.createElement("li");
         projectBullet.className = "project";
-        projectBullet.textContent = project.name;
+
+        const projectIcon = document.createElement("span");
+        projectIcon.className = "project-icon material-symbols-outlined";
+        projectIcon.textContent = 'tag';
+        projectIcon.setAttribute("aria-label", "Project Icon");
+
+        projectBullet.appendChild(projectIcon);
+        projectBullet.append(project.name);
         
         //add event listener to add class "selected" to relevant project
         projectBullet.addEventListener("click", () => {

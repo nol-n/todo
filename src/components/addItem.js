@@ -1,5 +1,7 @@
 import toDoItem from "../models/todoitem.js";
 import { renderItems } from "./renderItems.js";
+import { addAction } from "./notifications.js";
+import projects from "../models/projects.js";
 
 function addItemDialog(project) {
     const itemTitle = document.querySelector("#item-title").value.trim();
@@ -11,6 +13,7 @@ function addItemDialog(project) {
         const newItem = toDoItem(itemTitle, itemDesc, itemDueDate, itemPriority);
         project.addItem(newItem);
         renderItems(project);
+        addAction(`${itemTitle} task added to ${project.name} project.`)
         document.querySelector("#add-item-dialog").close();
     }
 }

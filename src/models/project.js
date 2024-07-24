@@ -1,10 +1,11 @@
-import toDoItem from './todoitem.js';
+import projects from "./projects.js";
 
-function project(name) {
+function createProject(name) {
     const items = [];
 
     const addItem = (toDoItem) => {
         items.push(toDoItem);
+        projects.saveProjectsToLocalStorage();
         console.log(`Item "${toDoItem.title}" added to project "${name}".`);
     };
 
@@ -14,12 +15,18 @@ function project(name) {
             console.log(`Deleting ${toDoItem.title} from ${name}.`)
             toDoItem.del();
             items.splice(index, 1);
+            projects.saveProjectsToLocalStorage();
         }
     };
 
     const getItems = () => items;
 
-    return { name, addItem, removeItem, getItems };
+    const toJSON = () => ({
+        name,
+        items: items.map(item => item.toJSON()),
+    });
+
+    return { name, addItem, removeItem, getItems, toJSON };
 }
 
-export default project;
+export default createProject;

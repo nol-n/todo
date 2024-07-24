@@ -14,7 +14,7 @@ function editProject(project) {
     const saveProjectName = () => {
         const newProjectName = input.value.trim();
         if (project.name != newProjectName) {
-            addAction(`${project.name} changed to ${newProjectName}.`);
+            addAction(`${project.name} project changed to ${newProjectName}.`);
         }
         
         if (newProjectName) {

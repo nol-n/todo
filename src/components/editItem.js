@@ -51,7 +51,7 @@ function saveEdit(projectName, itemIndex, isAllItemsView = false) {
     const editedPriority = itemDiv.querySelector('.edit-priority').value;
 
     if (item.title != editedTitle || item.desc != editedDesc || item.dueDate != editedDueDate || item.priority != editedPriority) {
-        addAction(`${item.title} edited in ${project.name}.`);
+        addAction(`${item.title} task edited in ${project.name} project.`);
     }
     
     item.edit('title', editedTitle);

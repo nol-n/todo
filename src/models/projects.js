@@ -7,13 +7,11 @@ const projectsModule = (() => {
     const addProject = (project) => {
         projects.push(project);
         saveProjectsToLocalStorage();
-        console.log(`Project ${project.name} added to projects.`)
     };
 
     const removeProject = (project) => {
         const index = projects.indexOf(project);
         if (index > -1) {
-            console.log(`Deleting ${project.name}.`)
             projects.splice(index, 1);
             saveProjectsToLocalStorage();
         }
@@ -24,7 +22,6 @@ const projectsModule = (() => {
     const saveProjectsToLocalStorage = () => {
         try {
             const projectsToSave = projects.map(p => p.toJSON());
-            console.log("Saving projects to localStorage:", projectsToSave); 
             localStorage.setItem('projects', JSON.stringify(projectsToSave));
         } catch (error) {
             console.error('Error saving projects to localStorage:', error);
@@ -46,7 +43,6 @@ const projectsModule = (() => {
                     });
                     projects.push(project);
                 });
-                console.log('Loaded projects from localStorage:', projects);
                 saveProjectsToLocalStorage();
             }
         } catch (error) {

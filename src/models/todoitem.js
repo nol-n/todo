@@ -9,16 +9,12 @@ function toDoItem(title, desc, dueDate, priority) {
                 delete toDoItemInstance[prop];
             }
         }
-        console.log(`toDoItem deleted.`)
         projects.saveProjectsToLocalStorage();
     };
 
     const edit = (prop, value) => {
         if (toDoItemInstance.hasOwnProperty(prop)) {
             toDoItemInstance[prop] = value;
-            console.log (`${toDoItemInstance.title} ${prop} has been updated to ${value}.`);
-        } else {
-            console.log (`${prop} not valid.`);
         }
         projects.saveProjectsToLocalStorage();
     };

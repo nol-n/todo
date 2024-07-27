@@ -59,7 +59,6 @@ function saveEdit(projectName, itemIndex, isAllItemsView = false) {
     item.edit('dueDate', editedDueDate);
     item.edit('priority', editedPriority);
 
-    console.log("Saving projects to localStorage after editing item...");
     projects.saveProjectsToLocalStorage();
 
 

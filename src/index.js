@@ -14,7 +14,7 @@ projects.loadProjectsFromLocalStorage();
 
 // Initialize some sample data
 if (projects.getProjects().length === 0) {
-    console.log("Project data loaded from initialization and not from localStorage.")
+    //Project data loaded from initialization and not from local storage
     const project1 = createProject("Project 1");
     const project2 = createProject("Project 2");
 
@@ -64,9 +64,7 @@ document.querySelector("#show-add-item-dialog").onclick = () => {
 
 document.querySelector("#add-item-button").onclick = () => {
     const currentProjectBullet = document.querySelector(".project.selected")?.textContent.replace("tag", "");
-    console.log("Selected project name:", currentProjectBullet); // Debugging line
     const project = projects.getProjects().find(proj => proj.name === currentProjectBullet);
-    console.log("Found project:", project); // Debugging line
     if (project) {
         addItemDialog(project);
     } else {
